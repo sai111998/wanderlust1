@@ -1,0 +1,28 @@
+<%=layout("/layouts/boilerplate.ejs")%>
+<body>
+  <div class="col-6 offset-3 mt-4">
+    <%if(data.length==0){%>
+      <h1 class="text-center">No Results Found!</h1>
+      <img class="img-thumbnail" src="https://images.unsplash.com/photo-1718361482637-754b67950018?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+      <p class="text-center mt-3">We couldn't find anything that matches your criteria.</p>
+      <p class="text-center">Try adjusting the filters and search again</p>
+    <%}%>
+  </div>
+  <%for(castle of data){%>
+  <div class="card listing-card">
+    <h3><%=castle.title%></h3>
+    <div></div>
+    <img src="<%=castle.img.url%>" class="img-top-card" style="height: 18rem;"
+    alt="<%=castle.image%>"/>
+    <div class="card-body">
+      <br />
+      <p><%=castle.description%></p>
+      <p>&#36 <%=castle.price.toLocaleString("en-US")%></p>
+    </div>
+    <a href="/listings/<%=castle._id%>" class="listing-link">
+      For More Info
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </a>
+  </div>
+  <%}%>
+</body>

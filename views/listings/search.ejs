@@ -1,0 +1,26 @@
+<%=layout("/layouts/boilerplate.ejs")%>
+<div>
+    <h4 class="text-center">Search results for "<%=search%>"</h4>
+    <div class="col-6 offset-3 mt-4">
+        <%if(val.length==0){%>
+            <p>No Results found</p>
+        <%}%>
+        <%for(data of val){%>
+            <div class="card listing-card ">
+                <h3><%=data.title%></h3>
+                <div class="card-img-overlay"></div>
+                <img src="<%=data.image.url%>" class="card-img-top " style="height: 18rem;"
+                    alt="<%=data.image%>">
+                <div class="card-body">
+                    <br>
+                    <p><%=data.description%></p>
+                    <p>&#36 <%=data.price.toLocaleString("en-US")%></p>
+                </div>
+            </div>
+            <a href="/listings/<%=data._id%>" class="listing-link">
+                For More Info
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+        <%}%>
+    </div>
+</div>
