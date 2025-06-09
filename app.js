@@ -21,7 +21,7 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 const dbURL = process.env.ATLAS_DB;
-const port = process.env.PORT || 8080;
+const port = 9000;
 
 main()
   .then(() => {
@@ -40,7 +40,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "/public")));
 
 const store=MongoStore.create({
   mongoUrl: dbURL,
@@ -93,11 +93,7 @@ app.use((req, res, next) => {
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
-// app.use("/", userRouter);
-app.get("/", (req, res) => {
-  res.redirect("/listings"); // or res.render("home") if you have a home.ejs
-});
-
+app.use("/", userRouter);
 
 // Catch-all for undefined routes (404 error handler)
 app.all("/{*any}", (req, res, next) => {
