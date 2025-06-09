@@ -19,14 +19,6 @@ const userRouter = require("./routes/user.js");
 const dbURL = process.env.ATLAS_DB;
 const port = 9000;
 
-main()
-  .then(() => {
-    console.log("coneected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 async function main() {
   await mongoose.connect(dbURL);
 }

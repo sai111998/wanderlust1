@@ -66,7 +66,7 @@ module.exports.createListing = async (req, res, next) => {
   res.redirect("/listings");
 };
 
-module.exports.editListing = async (req, res) => {
+module.exports.editListing = async (req, res,next) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   req.flash("success", "Listing Edited!");
@@ -79,7 +79,7 @@ module.exports.editListing = async (req, res) => {
   res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
 
-module.exports.updateListing = async (req, res) => {
+module.exports.updateListing = async (req, res,next) => {
   let { id } = req.params;
   //deconstruct({...req.body.listing})
   let lisitng = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
@@ -94,7 +94,7 @@ module.exports.updateListing = async (req, res) => {
   res.redirect(`/listings/${id}`);
 };
 
-module.exports.destoryListing = async (req, res) => {
+module.exports.destoryListing = async (req, res,next) => {
   let { id } = req.params;
   let deletedListing = await Listing.findByIdAndDelete(id);
   console.log("deleted");
@@ -102,7 +102,7 @@ module.exports.destoryListing = async (req, res) => {
   res.redirect("/listings");
 };
 
-module.exports.search = async (req, res) => {
+module.exports.search = async (req, res,next) => {
   let { search } = req.body;
   let val = await Listing.find({
     $or: [{ country: search }, { title: search },{location:search}],
@@ -110,63 +110,63 @@ module.exports.search = async (req, res) => {
   res.render("listings/search.ejs", { val, search });
 };
 
-module.exports.trending = async (req, res) => {
+module.exports.trending = async (req, res,next) => {
   let data = await Listing.find({ category: "trending" });
   console.log(data);
   res.render("listings/trending.ejs", { data });
 };
 
-module.exports.room = async (req, res) => {
+module.exports.room = async (req, res,next) => {
   let data = await Listing.find({ category: "room" });
   res.render("listings/room.ejs", { data });
 };
 
-module.exports.iconic = async (req, res) => {
+module.exports.iconic = async (req, res,next) => {
   let data = await Listing.find({ category: "iconic" });
   res.render("listings/iconic.ejs", { data });
 };
 
-module.exports.mountain = async (req, res) => {
+module.exports.mountain = async (req, res,next) => {
   let data = await Listing.find({ category: "mountain" });
   res.render("listings/mountain.ejs", { data });
 };
 
-module.exports.castle = async (req, res) => {
+module.exports.castle = async (req, res,next) => {
   let data = await Listing.find({ category: "castle" });
   res.render("listings/castle.ejs", { data });
 };
 
-module.exports.pool = async (req, res) => {
+module.exports.pool = async (req, res,next) => {
   let data = await Listing.find({ category: "pool" });
   res.render("listings/pool.ejs", { data });
 };
 
-module.exports.camping = async (req, res) => {
+module.exports.camping = async (req, res,next) => {
   let data = await Listing.find({ category: "camping" });
   res.render("listings/camping.ejs", { data });
 };
 
-module.exports.farm = async (req, res) => {
+module.exports.farm = async (req, res,next) => {
   let data = await Listing.find({ category: "farm" });
   res.render("listings/farm", { data });
 };
 
-module.exports.eco = async (req, res) => {
+module.exports.eco = async (req, res,next) => {
   let data = await Listing.find({ category: "eco" });
   res.render("listings/eco", { data });
 };
 
-module.exports.boat = async (req, res) => {
+module.exports.boat = async (req, res,next) => {
   let data = await Listing.find({ category: "boat" });
   res.render("listings/boat", { data });
 };
 
-module.exports.skiing = async (req, res) => {
+module.exports.skiing = async (req, res,next) => {
   let data = await Listing.find({ category: "skiing" });
   res.render("listings/skiing", { data });
 };
 
-module.exports.arctic = async (req, res) => {
+module.exports.arctic = async (req, res,next) => {
   let data = await Listing.find({ category: "arctic" });
   res.render("listings/arctic", { data });
 };
