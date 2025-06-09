@@ -21,7 +21,7 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 const dbURL = process.env.ATLAS_DB;
-const port=8080;
+const port = process.env.PORT || 8080;
 
 main()
   .then(() => {
@@ -93,7 +93,11 @@ app.use((req, res, next) => {
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
-app.use("/", userRouter);
+// app.use("/", userRouter);
+app.get("/", (req, res) => {
+  res.redirect("/listings"); // or res.render("home") if you have a home.ejs
+});
+
 
 // Catch-all for undefined routes (404 error handler)
 app.all("/{*any}", (req, res, next) => {
