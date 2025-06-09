@@ -17,7 +17,15 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 const dbURL = process.env.ATLAS_DB;
-const port = 9000;
+const port = process.env.PORT || 9000;
+
+main()
+  .then(() => {
+    console.log("coneected to DB");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 async function main() {
   await mongoose.connect(dbURL);
@@ -38,7 +46,7 @@ const store=MongoStore.create({
   touchAfter: 24*3600,
 })
 
-store.on("error",()=>{
+store.on("error",(err)=>{
   console.log("Error in mongo session code",err)
 })
 const sessionOptions = {
