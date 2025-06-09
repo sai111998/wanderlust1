@@ -21,6 +21,7 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 const dbURL = process.env.ATLAS_DB;
+const port=8080;
 
 main()
   .then(() => {
@@ -106,6 +107,6 @@ app.use((err, req, res, next) => {
   // res.status(statusCode).send(message);
 });
 
-app.listen(8080, () => {
-  console.log("Listening to port 8080");
+app.listen(port, () => {
+  console.log(`Listening to port ${port}`);
 });
