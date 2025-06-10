@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV != "production") {
+  require('dotenv').config();
+}
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -17,7 +20,7 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 const dbURL = process.env.ATLAS_DB;
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 8080;
 
 main()
   .then(() => {
@@ -46,7 +49,7 @@ const store=MongoStore.create({
   touchAfter: 24*3600,
 })
 
-store.on("error",(err)=>{
+store.on("error",()=>{
   console.log("Error in mongo session code",err)
 })
 const sessionOptions = {
@@ -77,15 +80,6 @@ app.use((req, res, next) => {
   res.locals.currUser = req.user;
   next();
 });
-
-// app.get("/demoUser", async(req,res)=>{
-//   let fakeUser={
-//     username: "sg198",
-//     email: "sg@123.com"
-//   }
-//   let registereUser= await User.register(fakeUser,"emma");
-//   res.send(registereUser);
-// })
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);

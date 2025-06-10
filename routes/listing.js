@@ -20,6 +20,7 @@ router
     upload.single("listing[image]"),
     wrapAsync(listingController.createListing)
   );
+  
 router.post("/search", wrapAsync(listingController.search));
 router.get("/trending", wrapAsync(listingController.trending));
 router.get("/room", wrapAsync(listingController.room));

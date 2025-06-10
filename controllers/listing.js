@@ -43,7 +43,6 @@ module.exports.showListings = async (req, res) => {
   res.render("listings/show.ejs", { listing });
 };
 
-
 module.exports.createListing = async (req, res, next) => {
   let response = await geocodingClient
     .forwardGeocode({
@@ -57,7 +56,9 @@ module.exports.createListing = async (req, res, next) => {
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
   newListing.image = { url, filename };
-
+  if (!req.body.listing) {
+    next(new expressError(400, "Try to send valid data"));
+  }
   newListing.geometry = response.body.features[0].geometry;
   let savedListing = await newListing.save();
   console.log(savedListing);
@@ -66,7 +67,7 @@ module.exports.createListing = async (req, res, next) => {
   res.redirect("/listings");
 };
 
-module.exports.editListing = async (req, res,next) => {
+module.exports.editListing = async (req, res, next) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   req.flash("success", "Listing Edited!");
@@ -79,7 +80,7 @@ module.exports.editListing = async (req, res,next) => {
   res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
 
-module.exports.updateListing = async (req, res,next) => {
+module.exports.updateListing = async (req, res, next) => {
   let { id } = req.params;
   //deconstruct({...req.body.listing})
   let lisitng = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
@@ -94,7 +95,7 @@ module.exports.updateListing = async (req, res,next) => {
   res.redirect(`/listings/${id}`);
 };
 
-module.exports.destoryListing = async (req, res,next) => {
+module.exports.destoryListing = async (req, res, next) => {
   let { id } = req.params;
   let deletedListing = await Listing.findByIdAndDelete(id);
   console.log("deleted");
@@ -102,71 +103,71 @@ module.exports.destoryListing = async (req, res,next) => {
   res.redirect("/listings");
 };
 
-module.exports.search = async (req, res,next) => {
+module.exports.search = async (req, res, next) => {
   let { search } = req.body;
   let val = await Listing.find({
-    $or: [{ country: search }, { title: search },{location:search}],
+    $or: [{ country: search }, { title: search }, { location: search }],
   });
   res.render("listings/search.ejs", { val, search });
 };
 
-module.exports.trending = async (req, res,next) => {
+module.exports.trending = async (req, res, next) => {
   let data = await Listing.find({ category: "trending" });
   console.log(data);
   res.render("listings/trending.ejs", { data });
 };
 
-module.exports.room = async (req, res,next) => {
+module.exports.room = async (req, res, next) => {
   let data = await Listing.find({ category: "room" });
   res.render("listings/room.ejs", { data });
 };
 
-module.exports.iconic = async (req, res,next) => {
+module.exports.iconic = async (req, res, next) => {
   let data = await Listing.find({ category: "iconic" });
   res.render("listings/iconic.ejs", { data });
 };
 
-module.exports.mountain = async (req, res,next) => {
+module.exports.mountain = async (req, res, next) => {
   let data = await Listing.find({ category: "mountain" });
   res.render("listings/mountain.ejs", { data });
 };
 
-module.exports.castle = async (req, res,next) => {
+module.exports.castle = async (req, res, next) => {
   let data = await Listing.find({ category: "castle" });
   res.render("listings/castle.ejs", { data });
 };
 
-module.exports.pool = async (req, res,next) => {
+module.exports.pool = async (req, res, next) => {
   let data = await Listing.find({ category: "pool" });
   res.render("listings/pool.ejs", { data });
 };
 
-module.exports.camping = async (req, res,next) => {
+module.exports.camping = async (req, res, next) => {
   let data = await Listing.find({ category: "camping" });
   res.render("listings/camping.ejs", { data });
 };
 
-module.exports.farm = async (req, res,next) => {
+module.exports.farm = async (req, res, next) => {
   let data = await Listing.find({ category: "farm" });
   res.render("listings/farm", { data });
 };
 
-module.exports.eco = async (req, res,next) => {
+module.exports.eco = async (req, res, next) => {
   let data = await Listing.find({ category: "eco" });
   res.render("listings/eco", { data });
 };
 
-module.exports.boat = async (req, res,next) => {
+module.exports.boat = async (req, res, next) => {
   let data = await Listing.find({ category: "boat" });
   res.render("listings/boat", { data });
 };
 
-module.exports.skiing = async (req, res,next) => {
+module.exports.skiing = async (req, res, next) => {
   let data = await Listing.find({ category: "skiing" });
   res.render("listings/skiing", { data });
 };
 
-module.exports.arctic = async (req, res,next) => {
+module.exports.arctic = async (req, res, next) => {
   let data = await Listing.find({ category: "arctic" });
   res.render("listings/arctic", { data });
 };
