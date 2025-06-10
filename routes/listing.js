@@ -1,6 +1,4 @@
-if (process.env.NODE_ENV != "production") {
-  require('dotenv').config();
-}
+
 const express = require("express");
 const router = express.Router();
 const Listing = require("../models/listing.js");
@@ -20,7 +18,7 @@ router
     upload.single("listing[image]"),
     wrapAsync(listingController.createListing)
   );
-  
+
 router.post("/search", wrapAsync(listingController.search));
 router.get("/trending", wrapAsync(listingController.trending));
 router.get("/room", wrapAsync(listingController.room));
