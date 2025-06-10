@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
+}
 
 const express = require("express");
 const app = express();
@@ -18,7 +21,6 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 const dbURL = process.env.ATLAS_DB;
-const port = process.env.PORT || 9000;
 
 main()
   .then(() => {
@@ -37,7 +39,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
-app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 const store=MongoStore.create({
   mongoUrl: dbURL,
@@ -47,7 +49,7 @@ const store=MongoStore.create({
   touchAfter: 24*3600,
 })
 
-store.on("error",(err)=>{
+store.on("error",()=>{
   console.log("Error in mongo session code",err)
 })
 const sessionOptions = {
@@ -79,6 +81,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// app.get("/demoUser", async(req,res)=>{
+//   let fakeUser={
+//     username: "sg198",
+//     email: "sg@123.com"
+//   }
+//   let registereUser= await User.register(fakeUser,"emma");
+//   res.send(registereUser);
+// })
+
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
@@ -95,6 +106,6 @@ app.use((err, req, res, next) => {
   // res.status(statusCode).send(message);
 });
 
-app.listen(port, () => {
-  console.log(`Listening to port ${port}`);
+app.listen(8080, () => {
+  console.log("Listening to port 8080");
 });

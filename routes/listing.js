@@ -1,4 +1,3 @@
-
 const express = require("express");
 const router = express.Router();
 const Listing = require("../models/listing.js");
@@ -40,7 +39,7 @@ router
   .route("/:id")
   .get(wrapAsync(listingController.showListings))
   .put(
-    isLoggedIn,
+    isLoggedIn, 
     isOwner,
     upload.single("listing[image]"),
     validateListing,
