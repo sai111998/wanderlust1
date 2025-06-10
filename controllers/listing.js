@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV != "production") {
+  require('dotenv').config();
+}
 const Listing = require("../models/listing");
 const mbxGeoCoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
